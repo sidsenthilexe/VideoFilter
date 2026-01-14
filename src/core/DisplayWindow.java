@@ -44,6 +44,7 @@ public class DisplayWindow extends PApplet {
     private int initHeight = 800;
 
     private static String DEFAULT_FILTER = "DoNothingFilter";
+    private static String DEFAULT_FILTER_TYPE = "Filters";
 
     public void settings() {
         initializeImageSource(args);
@@ -370,14 +371,22 @@ public class DisplayWindow extends PApplet {
 
     private PixelFilter selectNewFilterDialog() {
         String userDirLocation = System.getProperty("user.dir");
-        File userDir = new File(userDirLocation + "/src/Filters");
+
+        String[] filterTypes = {"ColorFilters", "Filters"};
+        Object filterType = JOptionPane.showInputDialog(null, "Select filter type", "Filter type selection", JOptionPane.QUESTION_MESSAGE, null, filterTypes, DEFAULT_FILTER_TYPE);
+        String filterTypeString;
+        if (filterType == null) filterTypeString = "Filters";
+        else filterTypeString = filterType.toString();
+
+        File userDir = new File(userDirLocation + "/src/" + filterTypeString);
 
         String[] filters = new String[Objects.requireNonNull(userDir.list()).length];
         for (int i = 0; i < filters.length; i++) {
             filters[i] = Objects.requireNonNull(userDir.list())[i].replace(".java", "");
         }
         Object name = JOptionPane.showInputDialog(null, "Select your filter", "Filter Selection", JOptionPane.QUESTION_MESSAGE, null, filters, DEFAULT_FILTER);
-        if (name == null) return this.filter;       // if they hit 'cancel' return the current filter.
+        if (name == null) return this.filter;
+        // if they hit 'cancel' return the current filter.
         return loadNewFilter(name.toString());
     }
 

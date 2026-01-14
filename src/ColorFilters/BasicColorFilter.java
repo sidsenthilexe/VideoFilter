@@ -1,10 +1,11 @@
-package Filters;
+package ColorFilters;
 
 import Interfaces.PixelFilter;
 import core.DImage;
 
 public class BasicColorFilter implements PixelFilter {
 
+    public BasicColorFilter() {  }
 
     @Override
     public DImage processImage(DImage img) {
