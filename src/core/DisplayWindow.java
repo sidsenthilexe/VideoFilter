@@ -66,7 +66,7 @@ public class DisplayWindow extends PApplet {
         centerX = width / 2;
         centerY = height / 2;
 
-        this.filter = loadNewFilter(DEFAULT_FILTER);
+        this.filter = loadNewFilter(DEFAULT_FILTER, DEFAULT_FILTER_TYPE);
     }
 
     private void initializeImageSource(String[] args) {
@@ -355,10 +355,11 @@ public class DisplayWindow extends PApplet {
         }
     }
 
-    private PixelFilter loadNewFilter(String name) {
+    private PixelFilter loadNewFilter(String name, String filterPackage) {
         PixelFilter f = null;
         try {
-            Class c = Class.forName("Filters." + name.toString());
+            String filterPackageName = filterPackage + ".";
+            Class c = Class.forName(filterPackageName + name);
             f = (PixelFilter) c.newInstance();
         } catch (Exception e) {
             System.err.println("Something went wrong when instantiating your class!  (running its constructor). " +
@@ -387,7 +388,7 @@ public class DisplayWindow extends PApplet {
         Object name = JOptionPane.showInputDialog(null, "Select your filter", "Filter Selection", JOptionPane.QUESTION_MESSAGE, null, filters, DEFAULT_FILTER);
         if (name == null) return this.filter;
         // if they hit 'cancel' return the current filter.
-        return loadNewFilter(name.toString());
+        return loadNewFilter(name.toString(), filterTypeString);
     }
 
     public static void showFor(String filePath) {
