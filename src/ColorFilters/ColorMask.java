@@ -63,6 +63,8 @@ public class ColorMask implements PixelFilter, Interactive {
 
     @Override
     public void keyPressed(char key) {
-
+        if (key == '+') maxDistance++;
+        if (key == '-') maxDistance--;
+        maxDistance = Math.min(441, (Math.max(0, maxDistance)));
     }
 }
