@@ -10,7 +10,6 @@ import java.awt.*;
 public class HSLColorMask implements PixelFilter, Interactive {
     private int x, y;
     private double maxDistance, thresholdHue;
-    private float[] thresholdHueOut;
 
     public HSLColorMask() {
         x = 0;
@@ -33,7 +32,7 @@ public class HSLColorMask implements PixelFilter, Interactive {
         int thresholdG = green[y][x];
         int thresholdB = blue[y][x];
 
-        thresholdHueOut = Color.RGBtoHSB(thresholdR, thresholdG, thresholdB, null);
+        float[] thresholdHueOut = Color.RGBtoHSB(thresholdR, thresholdG, thresholdB, null);
         thresholdHue = thresholdHueOut[0] * 360;
 
         for (int row = 0; row < red.length; row++) {
