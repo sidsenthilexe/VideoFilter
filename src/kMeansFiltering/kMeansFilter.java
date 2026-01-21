@@ -71,5 +71,7 @@ public class kMeansFilter implements PixelFilter {
         } while (!clusterOldPoints.equals(clusterNewPoints));
 
 
+        img.setColorChannels(red, green, blue);
+        return (img);
     }
 }
