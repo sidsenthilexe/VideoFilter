@@ -373,7 +373,7 @@ public class DisplayWindow extends PApplet {
     private PixelFilter selectNewFilterDialog() {
         String userDirLocation = System.getProperty("user.dir");
 
-        String[] filterTypes = {"ColorFilters", "Filters"};
+        String[] filterTypes = {"ColorFilters", "Filters", "kMeansFiltering"};
         Object filterType = JOptionPane.showInputDialog(null, "Select filter type", "Filter type selection", JOptionPane.QUESTION_MESSAGE, null, filterTypes, DEFAULT_FILTER_TYPE);
         String filterTypeString;
         if (filterType == null) filterTypeString = "Filters";
