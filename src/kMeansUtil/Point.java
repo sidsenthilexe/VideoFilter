@@ -1,4 +1,4 @@
-package kMeansFiltering;
+package kMeansUtil;
 
 public class Point {
     private short r, g, b;
@@ -25,6 +25,9 @@ public class Point {
     public short getG() { return g; }
 
     public short getB() { return b; }
+
+    public int getRow() { return row; }
+    public int getCol() { return col; }
 
     public void setPosition(short r, short g, short b) {
         this.r = r;
