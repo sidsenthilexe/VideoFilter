@@ -8,7 +8,7 @@ public class RunMe {
         // --== Load an image to filter ==--
 
         //FlatDarkLaf.setup();
-        DisplayWindow.showFor("images/8.jpg", 1280, 720, "DoNothingFilter");
+        //DisplayWindow.showFor("images/8.jpg", 1280, 720, "DoNothingFilter");
 
         // --== Determine your input interactively with menus ==--
         DisplayWindow.getInputInteractively(800,600);
