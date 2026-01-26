@@ -11,6 +11,6 @@ public class RunMe {
         DisplayWindow.showFor("images/8.jpg", 1280, 720, "DoNothingFilter");
 
         // --== Determine your input interactively with menus ==--
-//        DisplayWindow.getInputInteractively(800,600);
+        DisplayWindow.getInputInteractively(800,600);
     }
 }
