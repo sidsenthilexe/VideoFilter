@@ -2,13 +2,13 @@ package cardRecognitionUtil;
 
 public final class Constants {
 
-    public enum ColorThresholds {
+    public enum Colors {
         CARD((short) 255, (short) 255, (short) 255, 160);
 
         private final short R, G, B;
         private final int DIST;
 
-        ColorThresholds(short R, short G, short B, int DIST) {
+        Colors(short R, short G, short B, int DIST) {
             this.R = R;
             this.G = G;
             this.B = B;
