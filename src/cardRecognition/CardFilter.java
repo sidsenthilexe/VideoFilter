@@ -4,6 +4,9 @@ import Interfaces.PixelFilter;
 import cardRecognitionUtil.Constants;
 import cardRecognitionUtil.Constants.Colors;
 import core.DImage;
+import cardRecognitionUtil.Card;
+
+import java.util.ArrayList;
 
 public class CardFilter implements PixelFilter {
 
@@ -19,8 +22,10 @@ public class CardFilter implements PixelFilter {
         short[][] filteredG = new short[green.length][green[0].length];
         short[][] filteredB = new short[blue.length][blue[0].length];
 
+        ArrayList<Card> cards = new ArrayList<>();
+
         filterColors(red, green, blue, filteredR, filteredG, filteredB, Colors.CARD);
-        findCardCorners(filteredR, filteredG, filteredB);
+        cards = findCardCorners(filteredR, filteredG, filteredB);
 
         img.setColorChannels(filteredR, filteredG, filteredB);
         return img;
@@ -51,7 +56,7 @@ public class CardFilter implements PixelFilter {
 
     }
 
-    public void findCardCorners(short[][] red, short[][] green, short[][] blue) {
+    public ArrayList<Card> findCardCorners(short[][] red, short[][] green, short[][] blue) {
 
         boolean[] whiteCols = new boolean[red[0].length];
         boolean[] whiteRows = new boolean[red.length];
@@ -85,7 +90,30 @@ public class CardFilter implements PixelFilter {
 
             whiteRows[r] = numWhite > red.length / 2;
         }
-        
+
+        ArrayList<Integer> cardStartsCol = new ArrayList<>();
+        ArrayList<Integer> cardStartsRow = new ArrayList<>();
+        ArrayList<Integer> cardEndsCol = new ArrayList<>();
+        ArrayList<Integer> cardEndsRow = new ArrayList<>();
+
+        for (int col = 1; col < whiteCols.length; col++) {
+            if (whiteCols[col] && !whiteCols[col - 1]) { cardStartsCol.add(col); }
+            if (!whiteCols[col] && whiteCols[col-1]) { cardEndsCol.add(col-1); }
+        }
+
+        for (int row = 1; row < whiteRows.length; row++) {
+            if (whiteRows[row] && !whiteRows[row-1]) { cardStartsRow.add(row); }
+            if (!whiteRows[row] && whiteRows[row-1]) { cardEndsRow.add(row-1); }
+        }
+
+        ArrayList<Card> cards = new ArrayList<>();
+
+        for (int i = 0; i < cardStartsRow.size(); i++) {
+            Card newCard = new Card(cardStartsRow.get(i), cardStartsCol.get(i), cardEndsRow.get(i), cardEndsCol.get(i));
+            cards.add(newCard);
+        }
+
+        return cards;
     }
 
 }
