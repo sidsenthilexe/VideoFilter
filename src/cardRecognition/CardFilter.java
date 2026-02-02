@@ -26,7 +26,7 @@ public class CardFilter implements PixelFilter, Drawable {
 
 
         filterColors(red, green, blue, filteredR, filteredG, filteredB, Colors.CARD);
-        cards = findCardCorners(filteredR, filteredG, filteredB);
+        cards = findCardCornersNew(filteredR, filteredG, filteredB);
 
         img.setColorChannels(filteredR, filteredG, filteredB);
         return img;
@@ -61,6 +61,88 @@ public class CardFilter implements PixelFilter, Drawable {
         }
 
     }
+
+    private ArrayList<Card> findCardCornersNew(short[][] red, short[][] green, short[][] blue) {
+        int scanHeight = 10;
+        int scanWidth = 10;
+
+        for (int r = 0; r + scanHeight < red.length; r += scanHeight) {
+            for (int c = 0; c + scanWidth < red[0].length; c += scanWidth) {
+
+                boolean[][] currentScan = new boolean[scanHeight][scanWidth];
+
+                for (int r2 = 0; r2 < scanHeight; r2++) {
+                    for (int c2 = 0; c2 < scanWidth; c2++) {
+
+                        currentScan[r2][c2] = (red[r][c] == Colors.CARD.R() &&
+                                green[r][c] == Colors.CARD.G() &&
+                                blue[r][c] == Colors.CARD.B());
+
+                    }
+                }
+
+                parseScanBox(currentScan, r, c);
+
+
+            }
+        }
+
+        return cards;
+    }
+
+    private void parseScanBox(boolean[][] scan, int x, int y) {
+       boolean topLeft = false, topRight = false, bottomLeft = false, bottomRight = false;
+
+       double numWhite = 0, totalPixels = 0;
+
+        for (int r = 0; r < scan.length/2; r++) {
+            for (int c = 0; c < scan[0].length/2; c++) {
+                totalPixels++;
+                if (scan[r][c]) numWhite++;
+            }
+        }
+
+        if (numWhite >= totalPixels * 0.8) topLeft = true;
+        numWhite = 0;
+        totalPixels = 0;
+
+        for (int r = 0; r < scan.length/2; r++) {
+            for (int c = scan[0].length/2; c < scan[0].length; c++) {
+                totalPixels++;
+                if (scan[r][c]) numWhite++;
+            }
+        }
+
+        if (numWhite >= totalPixels * 0.8) topRight = true;
+        numWhite = 0;
+        totalPixels = 0;
+
+        for (int r = scan.length/2; r < scan.length; r++) {
+            for (int c = 0; c < scan[0].length/2; c++) {
+                totalPixels++;
+                if (scan[r][c]) numWhite++;
+            }
+        }
+
+        if (numWhite >= totalPixels * 0.8) bottomLeft = true;
+        numWhite = 0;
+        totalPixels = 0;
+
+        for (int r = scan.length/2; r < scan.length; r++) {
+            for (int c = scan[0].length/2; c < scan[0].length; c++) {
+                totalPixels++;
+                if (scan[r][c]) numWhite++;
+            }
+        }
+
+        if (numWhite >= totalPixels * 0.8) bottomRight = true;
+
+        if (topRight && !topLeft && !bottomLeft && !bottomRight) {
+            cards.add(new Card(x, y, x, y));
+        }
+    }
+
+
 
 
     private ArrayList<Card> findCardCorners(short[][] red, short[][] green, short[][] blue) {
@@ -146,9 +228,11 @@ public class CardFilter implements PixelFilter, Drawable {
     private void drawCardCorners(PApplet window, ArrayList<Card> cards) {
         window.fill( window.color(255, 0, 0) );
         window.stroke( window.color(255, 0, 0) );
-        for (Card c : cards) {
-            window.ellipse(c.getX1(), c.getY1(), 5, 5);
-            window.ellipse(c.getX2(), c.getY2(), 5, 5);
+        if (!cards.isEmpty()) {
+            for (Card c : cards) {
+                window.ellipse(c.getX1(), c.getY1(), 5, 5);
+                window.ellipse(c.getX2(), c.getY2(), 5, 5);
+            }
         }
 
     }
