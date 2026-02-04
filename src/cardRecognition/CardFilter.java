@@ -69,7 +69,7 @@ public class CardFilter implements PixelFilter, Drawable {
                 }
 
                 boolean checkNear = true;
-                double maxDist = 50d;
+                double maxDist = 120d;
                 for (int i = 0; i < topLeftX.size(); i++) {
                     int x = (topLeftX.get(i) - r);
                     int y = (topLeftY.get(i) - c);
@@ -109,7 +109,7 @@ public class CardFilter implements PixelFilter, Drawable {
                 }
 
                 boolean checkNear = true;
-                double maxDist = 50d;
+                double maxDist = 120d;
                 for (int i = 0; i < bottomRightX.size(); i++) {
                     int x = (bottomRightX.get(i) - r);
                     int y = (bottomRightY.get(i) - c);
