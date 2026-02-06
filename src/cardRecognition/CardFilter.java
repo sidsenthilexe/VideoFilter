@@ -31,7 +31,7 @@ public class CardFilter implements PixelFilter, Drawable {
         short[][] filteredB = new short[blue.length][blue[0].length];
 
 
-        short[][] bwGrid = filterColors(red, green, blue, filteredR, filteredG, filteredB, Colors.CARD);
+        short[][] bwGrid = filterColors(red, green, blue, filteredR, filteredG, filteredB);
 
         findCorners(bwGrid);
 
@@ -55,15 +55,15 @@ public class CardFilter implements PixelFilter, Drawable {
 
                 for (int i = 1; i <= searchSize; i++) {
 
-                    if (grid[r-i][c] != 0) surroundingColors = false;
-                    if (grid[r][c-i] != 0) surroundingColors = false;
-                    if (grid[r-i][c-i] != 0) surroundingColors = false;
+                    if (grid[r - i][c] != 0) surroundingColors = false;
+                    if (grid[r][c - i] != 0) surroundingColors = false;
+                    if (grid[r - i][c - i] != 0) surroundingColors = false;
                 }
 
                 for (int i = 1; i <= searchSize; i++) {
-                    if (grid[r+i][c] != 255) surroundingColors = false;
-                    if (grid[r][c+i] != 255) surroundingColors = false;
-                    if (grid[r+i][c+i] != 255) surroundingColors = false;
+                    if (grid[r + i][c] != 255) surroundingColors = false;
+                    if (grid[r][c + i] != 255) surroundingColors = false;
+                    if (grid[r + i][c + i] != 255) surroundingColors = false;
                 }
 
                 boolean checkNear = true;
@@ -85,7 +85,7 @@ public class CardFilter implements PixelFilter, Drawable {
             }
         }
 
-        for (int r = searchSize; r + searchSize< grid.length; r++) {
+        for (int r = searchSize; r + searchSize < grid.length; r++) {
             for (int c = searchSize; c + searchSize < grid[0].length; c++) {
 
                 boolean surroundingColors = true;
@@ -93,15 +93,15 @@ public class CardFilter implements PixelFilter, Drawable {
                 for (int i = 1; i <= searchSize; i++) {
 
 
-                    if (grid[r+i][c] != 0) surroundingColors = false;
-                    if (grid[r][c+i] != 0) surroundingColors = false;
-                    if (grid[r+i][c+i] != 0) surroundingColors = false;
+                    if (grid[r + i][c] != 0) surroundingColors = false;
+                    if (grid[r][c + i] != 0) surroundingColors = false;
+                    if (grid[r + i][c + i] != 0) surroundingColors = false;
                 }
 
                 for (int i = 1; i <= searchSize; i++) {
-                    if (grid[r-i][c] != 255) surroundingColors = false;
-                    if (grid[r][c-i] != 255) surroundingColors = false;
-                    if (grid[r-i][c-i] != 255) surroundingColors = false;
+                    if (grid[r - i][c] != 255) surroundingColors = false;
+                    if (grid[r][c - i] != 255) surroundingColors = false;
+                    if (grid[r - i][c - i] != 255) surroundingColors = false;
                 }
 
                 boolean checkNear = true;
@@ -129,33 +129,33 @@ public class CardFilter implements PixelFilter, Drawable {
     @Override
     public void drawOverlay(PApplet window, DImage original, DImage filtered) {
         for (int i = 0; i < topLeftX.size(); i++) {
-            window.stroke(255,0,0);
-            window.fill(255,0,0);
-            window.ellipse(topLeftY.get(i), topLeftX.get(i), 5,5);
+            window.stroke(255, 0, 0);
+            window.fill(255, 0, 0);
+            window.ellipse(topLeftY.get(i), topLeftX.get(i), 7, 7);
             System.out.println(topLeftX.size());
         }
 
         for (int i = 0; i < bottomRightX.size(); i++) {
             window.stroke(255, 0, 0);
             window.fill(255, 0, 0);
-            window.ellipse(bottomRightY.get(i), bottomRightX.get(i), 5, 5);
+            window.ellipse(bottomRightY.get(i), bottomRightX.get(i), 7, 7);
         }
     }
 
     private short[][] filterColors(short[][] red, short[][] green, short[][] blue,
-                            short[][] fRed, short[][] fGreen, short[][] fBlue, Colors color) {
+                                   short[][] fRed, short[][] fGreen, short[][] fBlue) {
 
         short[][] bwGrid = new short[red.length][red[0].length];
 
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
-                double redDist = Math.abs(red[r][c] - color.R());
-                double greenDist = Math.abs(green[r][c] - color.G());
-                double blueDist = Math.abs(blue[r][c] - color.B());
+                double redDist = Math.abs(red[r][c] - Colors.CARD.R());
+                double greenDist = Math.abs(green[r][c] - Colors.CARD.G());
+                double blueDist = Math.abs(blue[r][c] - Colors.CARD.B());
 
                 double overallDist = Math.sqrt((redDist * redDist) + (greenDist * greenDist) + (blueDist * blueDist));
 
-                if (overallDist < color.DIST()) {
+                if (overallDist < Colors.CARD.DIST()) {
                     fRed[r][c] = 255;
                     fGreen[r][c] = 255;
                     fBlue[r][c] = 255;
@@ -172,7 +172,6 @@ public class CardFilter implements PixelFilter, Drawable {
         return bwGrid;
 
     }
-
 
 
 }
