@@ -51,25 +51,23 @@ public class CardFilter implements PixelFilter, Drawable {
         for (int r = searchSize; r + searchSize < grid.length; r++) {
             for (int c = searchSize; c + searchSize < grid[0].length; c++) {
 
-                boolean surroundingBlack = true;
+                boolean surroundingColors = true;
 
                 for (int i = 1; i <= searchSize; i++) {
 
-                    if (grid[r-i][c] != 0) surroundingBlack = false;
-                    if (grid[r][c-i] != 0) surroundingBlack = false;
-                    if (grid[r-i][c-i] != 0) surroundingBlack = false;
+                    if (grid[r-i][c] != 0) surroundingColors = false;
+                    if (grid[r][c-i] != 0) surroundingColors = false;
+                    if (grid[r-i][c-i] != 0) surroundingColors = false;
                 }
 
-                boolean surroundingWhite = true;
-
                 for (int i = 1; i <= searchSize; i++) {
-                    if (grid[r+i][c] != 255) surroundingWhite = false;
-                    if (grid[r][c+i] != 255) surroundingWhite = false;
-                    if (grid[r+i][c+i] != 255) surroundingWhite = false;
+                    if (grid[r+i][c] != 255) surroundingColors = false;
+                    if (grid[r][c+i] != 255) surroundingColors = false;
+                    if (grid[r+i][c+i] != 255) surroundingColors = false;
                 }
 
                 boolean checkNear = true;
-                double maxDist = 120d;
+                double maxDist = 100d;
                 for (int i = 0; i < topLeftX.size(); i++) {
                     int x = (topLeftX.get(i) - r);
                     int y = (topLeftY.get(i) - c);
@@ -80,7 +78,7 @@ public class CardFilter implements PixelFilter, Drawable {
                     }
                 }
 
-                if (grid[r][c] == 255 && surroundingBlack && surroundingWhite && checkNear) {
+                if (grid[r][c] == 255 && surroundingColors && checkNear) {
                     topLeftX.add(r);
                     topLeftY.add(c);
                 }
@@ -90,26 +88,24 @@ public class CardFilter implements PixelFilter, Drawable {
         for (int r = searchSize; r + searchSize< grid.length; r++) {
             for (int c = searchSize; c + searchSize < grid[0].length; c++) {
 
-                boolean surroundingBlack = true;
+                boolean surroundingColors = true;
 
                 for (int i = 1; i <= searchSize; i++) {
 
 
-                    if (grid[r+i][c] != 0) surroundingBlack = false;
-                    if (grid[r][c+i] != 0) surroundingBlack = false;
-                    if (grid[r+i][c+i] != 0) surroundingBlack = false;
+                    if (grid[r+i][c] != 0) surroundingColors = false;
+                    if (grid[r][c+i] != 0) surroundingColors = false;
+                    if (grid[r+i][c+i] != 0) surroundingColors = false;
                 }
 
-                boolean surroundingWhite = true;
-
                 for (int i = 1; i <= searchSize; i++) {
-                    if (grid[r-i][c] != 255) surroundingWhite = false;
-                    if (grid[r][c-i] != 255) surroundingWhite = false;
-                    if (grid[r-i][c-i] != 255) surroundingWhite = false;
+                    if (grid[r-i][c] != 255) surroundingColors = false;
+                    if (grid[r][c-i] != 255) surroundingColors = false;
+                    if (grid[r-i][c-i] != 255) surroundingColors = false;
                 }
 
                 boolean checkNear = true;
-                double maxDist = 120d;
+                double maxDist = 100d;
                 for (int i = 0; i < bottomRightX.size(); i++) {
                     int x = (bottomRightX.get(i) - r);
                     int y = (bottomRightY.get(i) - c);
@@ -120,7 +116,7 @@ public class CardFilter implements PixelFilter, Drawable {
                     }
                 }
 
-                if (grid[r][c] == 255 && surroundingBlack && surroundingWhite && checkNear) {
+                if (grid[r][c] == 255 && surroundingColors && checkNear) {
                     bottomRightX.add(r);
                     bottomRightY.add(c);
                 }

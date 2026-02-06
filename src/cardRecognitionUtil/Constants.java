@@ -3,7 +3,7 @@ package cardRecognitionUtil;
 public final class Constants {
 
     public enum Colors {
-        CARD((short) 255, (short) 255, (short) 255, 160);
+        CARD((short) 255, (short) 255, (short) 255, 164);
 
         private final short R, G, B;
         private final int DIST;
